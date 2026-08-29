@@ -154,33 +154,42 @@ public class gestionarAlumno {
 
     public void modificarAlumno() {
         if (misAlumnos.isEmpty()) {
-
             System.out.println("No hay estudiantes registrados");
             return;
         }
         System.out.println("ingrese la cedula");
         String cedula = lector.nextLine();
 
-        System.out.println("ALUMNO ENCONTRADO");
+        boolean encontrado = false;
 
         for (Alumno c : misAlumnos) {
             if (c.getCedula().equalsIgnoreCase(cedula)) {
+                encontrado = true;
+
+                System.out.println("ALUMNO ENCONTRADO");
+
                 System.out.println("Ingerese su nuevo nombre");
                 String nuevo_nombre = lector.nextLine();
                 c.setNombre(nuevo_nombre);
+
                 System.out.println("Ingrese su nuevo apellido");
                 String nuevo_apellido = lector.nextLine();
                 c.setApellido(nuevo_apellido);
-                System.out.println("Ingrese su nueva edad");
-                int nueva_edad = lector.nextInt();
-                c.setEdad(nueva_edad);
-                System.out.println("Ingrese su nuevo semestre");
-                int nuevo_semestre = lector.nextInt();
-                c.setSemestre(nuevo_semestre);
-            } else {
-                System.out.println("No se encuentra estudiante regristrado");
-            }
 
+                System.out.println("Ingrese su nueva edad");
+                int nueva_edad = Integer.parseInt(lector.nextLine());
+                c.setEdad(nueva_edad);
+
+                System.out.println("Ingrese su nuevo semestre");
+                int nuevo_semestre = Integer.parseInt(lector.nextLine());
+                c.setSemestre(nuevo_semestre);
+
+                break;
+            }
+        }
+
+        if (!encontrado) {
+            System.out.println("No se encuentra estudiante registrado");
         }
     }
 
@@ -322,7 +331,7 @@ public class gestionarAlumno {
     private void grabarAlumno() throws FileNotFoundException {//pasar la contenedora al archivo tal como esta, no hace nada mas 
         File archivo = new File("./data/alumnos.txt");//ES UNA RUTA RELATIVA
         try (PrintWriter pluma = new PrintWriter(archivo)) {
-           
+
             for (Alumno a : misAlumnos) {
                 pluma.println(a.getCedula() + ","
                         + a.getNombre() + ","
